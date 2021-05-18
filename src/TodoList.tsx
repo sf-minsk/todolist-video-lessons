@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from "react";
-import {TaskType, FilterValuesType} from "./App";
+import {FilterValuesType, TaskType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditTableSpan} from "./EditTableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
@@ -15,7 +15,7 @@ type TodoListPropsType = {
     changeFilter: (value: FilterValuesType, todoListsID: string) => void
     changeTaskStatus: (taskId: string, newIsDoneValue: boolean, todoListsID: string) => void
     changeTaskTitle: (taskId: string, newTitle: string, todoListsID: string) => void
-    deleteTodoList: (todoListID: string) => void
+    removeTodoList: (todoListID: string) => void
     changeTodoListTitle: (title: string, todoListID: string) => void
 }
 
@@ -56,7 +56,7 @@ function TodoList(props: TodoListPropsType) {
         props.changeFilter('completed', props.todoListsID)
     }
     const onClickDeleteTodoList = () => {
-        props.deleteTodoList(props.todoListsID)
+        props.removeTodoList(props.todoListsID)
     }
     const addTask = (title: string) => {
         props.addTask(title, props.todoListsID)
