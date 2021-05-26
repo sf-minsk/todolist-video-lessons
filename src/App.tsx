@@ -43,8 +43,13 @@ function App() {
     })
 
 // taska
+
+    function removeTask(taskID: string, todoListID: string) {
+        tasks[todoListID] = tasks[todoListID].filter(t => t.id !== taskID)
+        setTasks({...tasks})
+    }
+
     function addTask(title: string, todoListID: string) {
-        debugger
         const newTask: TaskType = {
             id: v1(),
             title: title,
@@ -53,10 +58,6 @@ function App() {
         setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
     }
 
-    function removeTask(taskID: string, todoListID: string) {
-        tasks[todoListID] = tasks[todoListID].filter(t => t.id !== taskID)
-        setTasks({...tasks})
-    }
 
     function changeTaskStatus(taskId: string, newIsDoneValue: boolean, todoListID: string) {
         setTasks({
