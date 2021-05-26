@@ -102,6 +102,7 @@ test('title of specified task should be changed', () => {
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId2"][1].title).toBe("beer");
+    expect(endState['todolistId1'][1].title).toBe("JS");
 });
 
 test('new array should be added when new todolist is added', () => {
@@ -132,7 +133,6 @@ test('new array should be added when new todolist is added', () => {
     expect(keys.length).toBe(3);
     expect(endState[newKey]).toEqual([]);
 });
-
 
 
 test('property with todolistId should be deleted', () => {
