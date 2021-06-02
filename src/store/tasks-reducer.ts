@@ -1,6 +1,6 @@
 import {TaskStateType, TaskType} from "../App";
 import {v1} from "uuid";
-import {AddTodoListAT, RemoveTodoListAT} from "./todolists-reducer";
+import {AddTodoListAT, RemoveTodoListAT, todoListID_1, todoListID_2} from "./todolists-reducer";
 
 type RemoveTaskAT = {
     type: 'REMOVE_TASK'
@@ -30,7 +30,24 @@ type ChangeTitleAT = {
 
 export type ActionUnionType = RemoveTaskAT | AddTaskAT | ChangeStatusAT | ChangeTitleAT | AddTodoListAT | RemoveTodoListAT
 
-export const tasksReducer = (state: TaskStateType, action: ActionUnionType) => {
+
+let initialState = {
+    [todoListID_1]: [
+        {id: v1(), title: "HTML", isDone: true},
+        {id: v1(), title: "CSS", isDone: true},
+        {id: v1(), title: "React", isDone: false},
+        {id: v1(), title: "Redux", isDone: false}],
+    [todoListID_2]: [
+        {id: v1(), title: "Milk", isDone: true},
+        {id: v1(), title: "Bear", isDone: true},
+        {id: v1(), title: "Sugar", isDone: false},
+        {id: v1(), title: "Bread", isDone: false}]
+}
+
+type InitialStateType = typeof initialState
+
+
+export const tasksReducer = (state = initialState, action: ActionUnionType): InitialStateType => {
     switch (action.type) {
         case 'REMOVE_TASK' :
             return {
@@ -73,7 +90,7 @@ export const tasksReducer = (state: TaskStateType, action: ActionUnionType) => {
 
 
         default:
-            throw new Error('Error')
+            return state
     }
 }
 
