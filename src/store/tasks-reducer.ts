@@ -1,4 +1,4 @@
-import {TaskStateType, TaskType} from "../App";
+import {TaskType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {AddTodoListAT, RemoveTodoListAT, todoListID_1, todoListID_2} from "./todolists-reducer";
 
@@ -28,7 +28,13 @@ type ChangeTitleAT = {
     todolistId: string
 }
 
-export type ActionUnionType = RemoveTaskAT | AddTaskAT | ChangeStatusAT | ChangeTitleAT | AddTodoListAT | RemoveTodoListAT
+export type ActionUnionType =
+    RemoveTaskAT
+    | AddTaskAT
+    | ChangeStatusAT
+    | ChangeTitleAT
+    | AddTodoListAT
+    | RemoveTodoListAT
 
 
 let initialState = {
@@ -52,7 +58,7 @@ export const tasksReducer = (state = initialState, action: ActionUnionType): Ini
         case 'REMOVE_TASK' :
             return {
                 ...state,
-                [action.todolistId]: state[action.todolistId].filter(t => t.id != action.taskId)
+                [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)
             }
         case 'ADD_TASK' :
             let task: TaskType = {id: v1(), isDone: false, title: action.title}
