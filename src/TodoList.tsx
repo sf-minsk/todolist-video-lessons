@@ -20,21 +20,32 @@ type TodoListPropsType = {
     changeTodoListTitle: (title: string, todoListID: string) => void
 }
 
-export const TodoList = React.memo((props: TodoListPropsType) => {
+export const TodoList = React.memo(({
+                                        todoListsID,
+                                        title,
+                                        tasks,
+                                        filter,
+                                        addTask,
+                                        removeTask,
+                                        changeFilter,
+                                        changeTaskStatus,
+                                        changeTaskTitle,
+                                        removeTodoList,
+                                        changeTodoListTitle
+                                    }: TodoListPropsType) => {
 
-    console.log(`TodoList (${props.todoListsID}) was rendered`)
 
-    const {filter} = props
+    console.log(`TodoList (${todoListsID}) was rendered`)
 
 
     const getTasksForTodoList = () => {
-        switch (props.filter) {
+        switch (filter) {
             case "active":
-                return props.tasks.filter((t) => !t.isDone)
+                return tasks.filter((t) => !t.isDone)
             case "completed":
-                return props.tasks.filter((t) => t.isDone)
+                return tasks.filter((t) => t.isDone)
             default:
-                return props.tasks
+                return tasks
         }
     }
 
@@ -45,44 +56,44 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
         return <Task
             key={t.id}
             task={t}
-            todoListsID={props.todoListsID}
-            changeTaskStatus={props.changeTaskStatus}
-            changeTaskTitle={props.changeTaskTitle}
-            removeTask={props.removeTask}
+            todoListsID={todoListsID}
+            changeTaskStatus={changeTaskStatus}
+            changeTaskTitle={changeTaskTitle}
+            removeTask={removeTask}
         />
     })
     const onClickAllFilter = useCallback(() => {
-        props.changeFilter('all', props.todoListsID)
-    }, [props.changeFilter, props.todoListsID])
+        changeFilter('all', todoListsID)
+    }, [changeFilter, todoListsID])
     const onClickActiveFilter = useCallback(() => {
-        props.changeFilter('active', props.todoListsID)
-    }, [props.changeFilter, props.todoListsID])
+        changeFilter('active', todoListsID)
+    }, [changeFilter, todoListsID])
     const onClickCompletedFilter = useCallback(() => {
-        props.changeFilter('completed', props.todoListsID)
-    }, [props.changeFilter, props.todoListsID])
+        changeFilter('completed', todoListsID)
+    }, [changeFilter, todoListsID])
 
 
-    const onClickDeleteTodoList = useCallback(() => {
-        props.removeTodoList(props.todoListsID)
-    }, [props.removeTodoList, props.todoListsID])
-    const addTask = useCallback((title: string) => {
-        props.addTask(title, props.todoListsID)
-    }, [props.addTask, props.todoListsID])
-    const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.todoListsID)
+    const onClickDeleteTodoListHandler = useCallback(() => {
+        removeTodoList(todoListsID)
+    }, [removeTodoList, todoListsID])
+    const addTaskHandler = useCallback((title: string) => {
+        addTask(title, todoListsID)
+    }, [addTask, todoListsID])
+    const changeTodoListTitleHandler = (title: string) => changeTodoListTitle(title, todoListsID)
 
     return (
         <div>
             <h3>
-                <EditTableSpan title={props.title} changeTitle={changeTodoListTitle}/>
+                <EditTableSpan title={title} changeTitle={changeTodoListTitleHandler}/>
                 <IconButton
-                    onClick={onClickDeleteTodoList}
+                    onClick={onClickDeleteTodoListHandler}
                     color={'secondary'}
 
                 >
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTaskHandler}/>
             <ul style={{listStyle: 'none', paddingLeft: '0px'}}>
                 {task}
             </ul>

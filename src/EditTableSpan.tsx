@@ -6,9 +6,9 @@ type EditTableSpanPropsType = {
     changeTitle: (title: string) => void
 }
 
-export const EditTableSpan = React.memo((props: EditTableSpanPropsType) => {
+export const EditTableSpan = React.memo(({title, changeTitle}: EditTableSpanPropsType) => {
     console.log('span')
-    const [title, setTitle] = useState<string>(props.title)
+    const [spanTitle, setSpanTitle] = useState<string>(title)
     const [editMode, setEditMode] = useState<boolean>(false)
 
     const onEditMode = useCallback(() => {
@@ -16,10 +16,10 @@ export const EditTableSpan = React.memo((props: EditTableSpanPropsType) => {
     }, [])
     const offEditMode = useCallback(() => {
         setEditMode(false)
-        props.changeTitle(title)
-    }, [props.changeTitle, title])
+        changeTitle(spanTitle)
+    }, [changeTitle, spanTitle])
 
-    const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+    const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setSpanTitle(e.currentTarget.value)
 
 
     return (
@@ -27,13 +27,13 @@ export const EditTableSpan = React.memo((props: EditTableSpanPropsType) => {
             ?
             <Input
                 color={'primary'}
-                value={title}
+                value={spanTitle}
                 autoFocus
                 onBlur={offEditMode}
                 onChange={onChangeTitle}
             />
             :
-            <span onDoubleClick={onEditMode}>{props.title}</span>
+            <span onDoubleClick={onEditMode}>{title}</span>
     )
 })
 
